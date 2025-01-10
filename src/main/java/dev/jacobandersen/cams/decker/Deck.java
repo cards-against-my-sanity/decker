@@ -1,5 +1,6 @@
 package dev.jacobandersen.cams.decker;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class Deck {
     @Column(name = "weight")
     private int weight;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "black_card_decks",
@@ -30,6 +32,7 @@ public class Deck {
     )
     private List<BlackCard> blackCards;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "white_card_decks",
