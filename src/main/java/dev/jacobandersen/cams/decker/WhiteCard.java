@@ -3,6 +3,7 @@ package dev.jacobandersen.cams.decker;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -30,5 +31,16 @@ public class WhiteCard {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof WhiteCard whiteCard)) return false;
+        return Objects.equals(getId(), whiteCard.getId()) && Objects.equals(getContent(), whiteCard.getContent());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getContent());
     }
 }

@@ -24,7 +24,7 @@ public class Deck {
     private int weight;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "black_card_decks",
             joinColumns = @JoinColumn(name = "deck_id"),
@@ -33,7 +33,7 @@ public class Deck {
     private List<BlackCard> blackCards;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "white_card_decks",
             joinColumns = @JoinColumn(name = "deck_id"),

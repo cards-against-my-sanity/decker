@@ -2,6 +2,7 @@ package dev.jacobandersen.cams.decker;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -40,5 +41,16 @@ public class BlackCard {
 
     public void setPick(int pick) {
         this.pick = pick;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof BlackCard blackCard)) return false;
+        return getPick() == blackCard.getPick() && Objects.equals(getId(), blackCard.getId()) && Objects.equals(getContent(), blackCard.getContent());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getContent(), getPick());
     }
 }
