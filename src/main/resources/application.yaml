@@ -1,0 +1,26 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+app:
+  frontend-origin: ${APP_FRONTEND_ORIGIN}
+
+spring:
+  application:
+    name: decker
+  jpa:
+    hibernate:
+      ddl-auto: ${DDL_AUTO:validate}
+  datasource:
+    url: jdbc:mariadb://${DB_HOST}:${DB_PORT}/${DB_SCHEMA_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  mvc:
+    log-request-details: ${LOG_REQUEST_DETAILS:false}
+  cache:
+    cache-names: ${CACHE_NAMES}
+    caffeine:
+      spec: ${CAFFEINE_SPEC}
+
+logging:
+  level:
+    root: ${LOG_LEVEL:INFO}
