@@ -16,7 +16,7 @@ create table black_cards
 create table black_card_decks
 (
     card_id char(36) not null,
-    deck_id      char(36) not null,
+    deck_id char(36) not null,
     primary key (card_id, deck_id),
     foreign key (card_id) references black_cards (id)
         on update cascade on delete cascade,
@@ -33,7 +33,7 @@ create table white_cards
 create table white_card_decks
 (
     card_id char(36) not null,
-    deck_id      char(36) not null,
+    deck_id char(36) not null,
     primary key (card_id, deck_id),
     foreign key (card_id) references white_cards (id)
         on update cascade on delete cascade,
