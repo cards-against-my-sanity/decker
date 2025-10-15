@@ -36,6 +36,7 @@ repositories {
 
 dependencies {
     val caffeineVersion = "3.1.8"
+    val jakartaPersistenceApiVersion = "3.2.0"
 
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-cache")
@@ -45,6 +46,7 @@ dependencies {
     implementation("com.github.ben-manes.caffeine:caffeine:${caffeineVersion}")
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-database-postgresql")
+    implementation("jakarta.persistence:jakarta.persistence-api:${jakartaPersistenceApiVersion}")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
