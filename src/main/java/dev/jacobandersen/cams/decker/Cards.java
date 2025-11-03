@@ -1,6 +1,6 @@
 package dev.jacobandersen.cams.decker;
 
-import java.util.Set;
+import java.util.List;
 
-public record Cards(Set<BlackCard> blackCards, Set<WhiteCard> whiteCards) {
+public record Cards(List<BlackCard> blackCards, List<WhiteCard> whiteCards) {
 }

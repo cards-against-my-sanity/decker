@@ -26,7 +26,7 @@ create table black_card_decks
 
 create table white_cards
 (
-    id      uuid     not null primary key,
+    id      uuid         not null primary key,
     content varchar(255) not null
 );
 

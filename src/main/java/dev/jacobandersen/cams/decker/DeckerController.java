@@ -1,17 +1,17 @@
 package dev.jacobandersen.cams.decker;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
 import java.util.UUID;
 
-@Controller
+@RestController
 public class DeckerController {
     private final DeckerService deckerService;
 
@@ -20,22 +20,20 @@ public class DeckerController {
     }
 
     @GetMapping("/decks")
-    public ResponseEntity<List<Deck>> getDecks() {
-        return ResponseEntity.ok(deckerService.getDecks());
+    public Flux<Deck> getDecks() {
+        return deckerService.getDecks();
     }
 
     @GetMapping("/decks/{id}")
-    public ResponseEntity<Deck> getDeck(@PathVariable("id") UUID id) {
-        return ResponseEntity.ok(deckerService.getDeckById(id));
+    public Mono<ResponseEntity<Deck>> getDeck(@PathVariable("id") UUID id) {
+        return deckerService
+                .getDeckById(id)
+                .map(ResponseEntity::ok)
+                .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
     }
 
     @GetMapping("/cards")
-    public ResponseEntity<Cards> getCardsInDecks(@RequestParam("id") UUID[] ids) {
-        final Cards cards = deckerService.getCards(new HashSet<>(Arrays.asList(ids)));
-        if (cards == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(cards);
+    public Mono<Cards> getCardsInDecks(@RequestParam("id") UUID[] ids) {
+        return deckerService.getCards(Arrays.asList(ids));
     }
 }

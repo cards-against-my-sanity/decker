@@ -9,7 +9,7 @@ plugins {
 
 group = "dev.jacobandersen.cams"
 
-val versionBase = "0.0.1-SNAPSHOT"
+val versionBase = "0.0.2-SNAPSHOT"
 val isSnapshot = versionBase.endsWith("-SNAPSHOT")
 if (isSnapshot) {
     val gitHash = "git rev-parse --short HEAD".runCommand()?.trim() ?: "unknown"
@@ -39,19 +39,19 @@ dependencies {
     val jakartaPersistenceApiVersion = "3.2.0"
 
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.springframework.boot:spring-boot-starter-cache")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("com.github.ben-manes.caffeine:caffeine:${caffeineVersion}")
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-database-postgresql")
     implementation("jakarta.persistence:jakarta.persistence-api:${jakartaPersistenceApiVersion}")
+    runtimeOnly("org.postgresql:r2dbc-postgresql")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("io.projectreactor:reactor-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
