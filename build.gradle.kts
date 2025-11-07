@@ -9,7 +9,7 @@ plugins {
 
 group = "dev.jacobandersen.cams"
 
-val versionBase = "0.0.3-SNAPSHOT"
+val versionBase = "0.0.4-SNAPSHOT"
 val isSnapshot = versionBase.endsWith("-SNAPSHOT")
 if (isSnapshot) {
     val gitHash = "git rev-parse --short HEAD".runCommand()?.trim() ?: "unknown"

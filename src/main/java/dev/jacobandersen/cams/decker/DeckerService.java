@@ -67,16 +67,16 @@ public class DeckerService {
     }
 
     @Cacheable("cardsByDeckId")
-    public Mono<Cards> getCards(List<UUID> deckIds) {
+    public Mono<Cards> getCards(UUID[] deckIds) {
         Mono<List<BlackCard>> blackCards = databaseClient
-                .sql("select bc.* from black_cards bc inner join black_card_decks bcd on bcd.card_id = bc.id where bcd.deck_id in ($1)")
+                .sql("select bc.* from black_cards bc inner join black_card_decks bcd on bcd.card_id = bc.id where bcd.deck_id = any($1)")
                 .bind(0, deckIds)
                 .map(blackCardRowMapper)
                 .all()
                 .collectList();
 
         Mono<List<WhiteCard>> whiteCards = databaseClient
-                .sql("select wc.* from white_cards wc inner join white_card_decks wcd on wcd.card_id = wc.id where wcd.deck_id in ($1)")
+                .sql("select wc.* from white_cards wc inner join white_card_decks wcd on wcd.card_id = wc.id where wcd.deck_id = any($1)")
                 .bind(0, deckIds)
                 .map(whiteCardRowMapper)
                 .all()
@@ -86,4 +86,24 @@ public class DeckerService {
                 .zip(blackCards, whiteCards)
                 .map(tuple -> new Cards(tuple.getT1(), tuple.getT2()));
     }
+
+    @Cacheable("cardMetaByDeckId")
+    public Mono<CardMeta> getCardMeta(UUID[] deckIds) {
+        Mono<Integer> blackCardCount = databaseClient
+                .sql("select count(bc.*) from black_cards bc inner join black_card_decks bcd on bcd.card_id = bc.id where bcd.deck_id = any($1)")
+                .bind(0, deckIds)
+                .map((row, meta) -> row.get(0, Integer.class))
+                .first();
+
+        Mono<Integer> whiteCardCount = databaseClient
+                .sql("select count(wc.*) from white_cards wc inner join white_card_decks wcd on wcd.card_id = wc.id where wcd.deck_id = any($1)")
+                .bind(0, deckIds)
+                .map((row, meta) -> row.get(0, Integer.class))
+                .first();
+
+        return Mono
+                .zip(blackCardCount, whiteCardCount)
+                .map(tuple -> new CardMeta(tuple.getT1(), tuple.getT2()));
+    }
+
 }

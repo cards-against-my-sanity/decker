@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
 import java.util.UUID;
 
 @RestController
@@ -43,6 +42,11 @@ public class DeckerController {
 
     @GetMapping("/cards")
     public Mono<Cards> getCardsInDecks(@RequestParam("id") UUID[] ids) {
-        return deckerService.getCards(Arrays.asList(ids));
+        return deckerService.getCards(ids);
+    }
+
+    @GetMapping("/meta")
+    public Mono<CardMeta> getCardMetaForDecks(@RequestParam("id") UUID[] ids) {
+        return deckerService.getCardMeta(ids);
     }
 }
