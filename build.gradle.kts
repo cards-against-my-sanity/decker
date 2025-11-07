@@ -9,7 +9,7 @@ plugins {
 
 group = "dev.jacobandersen.cams"
 
-val versionBase = "0.0.2-SNAPSHOT"
+val versionBase = "0.0.3-SNAPSHOT"
 val isSnapshot = versionBase.endsWith("-SNAPSHOT")
 if (isSnapshot) {
     val gitHash = "git rev-parse --short HEAD".runCommand()?.trim() ?: "unknown"
@@ -35,17 +35,14 @@ repositories {
 }
 
 dependencies {
-    val caffeineVersion = "3.1.8"
-    val jakartaPersistenceApiVersion = "3.2.0"
-
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("com.github.ben-manes.caffeine:caffeine:${caffeineVersion}")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-database-postgresql")
-    implementation("jakarta.persistence:jakarta.persistence-api:${jakartaPersistenceApiVersion}")
     runtimeOnly("org.postgresql:r2dbc-postgresql")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")

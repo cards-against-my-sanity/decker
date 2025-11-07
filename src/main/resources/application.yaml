@@ -11,6 +11,16 @@ spring:
     url: r2dbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_SCHEMA_NAME}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT:6379}
+      username: ${REDIS_USERNAME}
+      password: ${REDIS_PASSWORD}
+  cache:
+    redis:
+      key-prefix: "decker-cache::"
+      time-to-live: 1h
   mvc:
     log-request-details: ${LOG_REQUEST_DETAILS:false}
 

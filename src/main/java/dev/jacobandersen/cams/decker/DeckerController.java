@@ -24,12 +24,21 @@ public class DeckerController {
         return deckerService.getDecks();
     }
 
-    @GetMapping("/decks/{id}")
+    @GetMapping("/deck/{id}/get")
     public Mono<ResponseEntity<Deck>> getDeck(@PathVariable("id") UUID id) {
         return deckerService
                 .getDeckById(id)
                 .map(ResponseEntity::ok)
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+    }
+
+    @GetMapping("/deck/{id}/exists")
+    public Mono<ResponseEntity<Void>> isDeckExist(@PathVariable("id") UUID id) {
+        return deckerService
+                .existsDeckById(id)
+                .flatMap(exists -> exists
+                        ? Mono.just(ResponseEntity.ok().build())
+                        : Mono.just(ResponseEntity.notFound().build()));
     }
 
     @GetMapping("/cards")
